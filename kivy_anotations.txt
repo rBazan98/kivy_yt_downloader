@@ -1,0 +1,30 @@
+You can call a function or a method at specified intervals using schedule_interval(). Here is an example of calling a function named my_callback every 1/30th of a second (i.e. 30 times per second):
+
+def my_callback(dt):
+    print('My callback is called', dt)
+event = Clock.schedule_interval(my_callback, 1 / 30)
+
+You have multiple ways of unscheduling a previously scheduled event. One, is to use cancel() or unschedule():
+
+event.cancel()
+or:
+
+Clock.unschedule(event)
+
+Alternatively, you can return False in your callback, and your event will be automatically unscheduled:
+
+count = 0
+def my_callback(dt):
+    global count
+    count += 1
+    if count == 10:
+        print('Last call of my callback, bye bye !')
+        return False
+    print('My callback is called')
+Clock.schedule_interval(my_callback, 1 / 30)
+
+Using schedule_once(), you can call a function “later”, like in the next frame, or in X seconds:
+
+def my_callback(dt):
+    print('My callback is called !')
+Clock.schedule_once(my_callback, 1)
